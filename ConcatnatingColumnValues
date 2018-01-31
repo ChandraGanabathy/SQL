@@ -1,0 +1,5 @@
+SQL combined Values : 'A','B','C','SID'
+DECLARE @listStr VARCHAR(MAX)
+SELECT @listStr = COALESCE(@listStr+',' ,'') + char(39) + Code + CHAR(39)
+FROM Employee
+SELECT @listStr
