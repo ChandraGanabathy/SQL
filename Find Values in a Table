@@ -1,0 +1,45 @@
+DECLARE @SearchStr nvarchar(100)
+SET @SearchStr = 'AUD USD JEFF 3024793'
+
+DECLARE @TableName nvarchar(256), @ColumnName nvarchar(128), @SearchStr2 nvarchar(110)
+SET @TableName = 'mub.s_FXForward'0
+SET @SearchStr2 = QUOTENAME('%' + @SearchStr + '%','''')
+SET @ColumnName = ''	
+  	
+    SET NOCOUNT ON
+    DECLARE @Results Table(TableName nvarchar(256), ColumnName nvarchar(128))
+    
+    WHILE (@TableName IS NOT NULL) AND (@ColumnName IS NOT NULL)
+	BEGIN
+            SET @ColumnName =
+            (
+                SELECT MIN(QUOTENAME(COLUMN_NAME))
+                FROM     INFORMATION_SCHEMA.COLUMNS
+                WHERE  TABLE_SCHEMA    = PARSENAME(@TableName, 2)
+                    AND    TABLE_NAME    = PARSENAME(@TableName, 1)
+                    AND    DATA_TYPE IN ('char', 'varchar', 'nchar', 'nvarchar', 'int', 'decimal')
+                    AND    QUOTENAME(COLUMN_NAME) > @ColumnName
+            )
+            IF @ColumnName IS NOT NULL
+			BEGIN
+				print @ColumnName
+				
+				if(@SearchStr is null)
+					INSERT INTO @Results
+					EXEC
+				(
+					'SELECT ''' + @TableName + '.' + @ColumnName + ''', LEFT(' + @ColumnName + ', 3630) FROM ' + @TableName + ' (NOLOCK) ' +
+					' WHERE ' + @ColumnName + ' IS NULL'
+				)
+				else
+					INSERT INTO @Results
+					EXEC
+					(
+						'SELECT ''' + @TableName + '.' + @ColumnName + ''', LEFT(' + @ColumnName + ', 3630) FROM ' + @TableName + ' (NOLOCK) ' +
+						' WHERE ' + @ColumnName + ' LIKE ' + @SearchStr2
+					)
+					
+			END
+	END   
+ 
+    SELECT distinct *  FROM @Results
