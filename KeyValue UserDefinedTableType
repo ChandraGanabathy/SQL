@@ -1,0 +1,9 @@
+
+CREATE TYPE [dbo].[KeyValueTable] AS TABLE(
+	[Key] [varchar](50) NULL,
+	[Value] [varchar](50) NULL
+)
+GO
+
+declare @keyvalue as dbo.KeyValueTable
+select * from @keyvalue
