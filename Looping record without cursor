@@ -1,0 +1,15 @@
+	declare @Rowcount int 
+	select @Rowcount=count(1) from Employee 
+	declare @RowID int
+	declare @BookValue varchar(50)
+	
+	while( @Rowcount>0)
+	begin
+  
+		select @Rowcount=@Rowcount-1;
+		declare @Name varchar(50)
+		SELECT @RowID=RowID,@Name=Name FROM Employee
+						 order by RowID desc OFFSET @Rowcount ROWS FETCH NEXT 1 ROWS ONLY;
+			
+		
+	end 
