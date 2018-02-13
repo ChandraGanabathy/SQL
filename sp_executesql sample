@@ -1,0 +1,11 @@
+  declare @SQLString nvarchar(max);
+		declare @tableID int = object_ID(@TableName)
+		
+		set @SQLString=N'DELETE from ' + QUOTENAME(OBJECT_SCHEMA_NAME(@tableID)) 
+						+ '.' + OBJECT_NAME(@tableID) 
+						+ N' where Code=@Code AND date=@Date AND RowID=@RowID' ;
+		
+		EXEC sp_executesql  @SQLString ,N'@asofdate VARCHAR(8),@Code varchar(50),@RowID int'
+					,@Date= @date
+					,@Code=@code
+					,@RowID=@rowid
