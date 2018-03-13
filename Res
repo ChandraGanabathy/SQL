@@ -1,3 +1,20 @@
+===Consultant
+Open Source – www.ParentOrbit.com
+Python 2.7, Django 1.7, Git, Amazon S3, JavaScript, HTML and MYSQL
+
+Its market place connects parents with activity providers such as after school, Pre-school. It also provides fund raising for PTA/PTO, sports teams and registration software for managing student enrolments.
+
+Job Accomplishments: 
+?	Coded on all levels of Django MVC architecture.
+?	Contributed module for PLAID banking transaction.
+?	Designed database for the application.
+?	
+
+I have also participated in open source project(www.ParentOrbit.com) with 
+Python 2.7, Django 1.7, Git, Amazon S3, JavaScript, HTML and MYSQL
+
+
+
 
 Our DEVOPS team focus on two approaches for automating/continuous integration.
 1)SBE(Specification by example)-Business partners and My team are capturing the actual behaviors of an application which is independent of implementation, also part of the agile scrum methodology. I write SBEs in plain English based on Gherkin syntax, then executed by Cucumber where the result will be shown in Spectacle tool for the business users.
