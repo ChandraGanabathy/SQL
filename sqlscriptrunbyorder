@@ -1,0 +1,34 @@
+Import-Module SqlPs
+Add-PSSnapin SqlServerCmdletSnapin100
+Add-PSSnapin SqlServerProviderSnapin100
+
+# Load Smo and referenced assemblies.
+[void][System.Reflection.Assembly]::LoadWithPartialName('Microsoft.SqlServer.ConnectionInfo');
+[void][System.Reflection.Assembly]::LoadWithPartialName('Microsoft.SqlServer.Management.Sdk.Sfc');
+[void][System.Reflection.Assembly]::LoadWithPartialName('Microsoft.SqlServer.SMO');
+# Requiered for SQL Server 2008 (SMO 10.0).
+[void][System.Reflection.Assembly]::LoadWithPartialName('Microsoft.SqlServer.SMOExtended');
+
+$ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
+
+$trans = join-path -path $ScriptDir -childpath "\SqlExecOutput.log"
+Start-Transcript $trans 
+
+$DatabaseServer = ""
+$DatabaseName = ""
+write-host "**************************************"
+write-host "Server : "  $DatabaseServer 
+write-host "Database : " $DatabaseName 
+write-host "**************************************"
+
+$files = get-childitem -path $ScriptDir -filter *.sql |Select-Object -Property Name | sort-object Name
+
+foreach($file in $files)
+{
+    $sqlfile =$ScriptDir + "\" + $file.Name
+    write-host $file.Name
+    Invoke-SqlCmd -InputFile $sqlfile -ServerInstance $DatabaseServer -Database $DatabaseName -Verbose
+}
+
+Stop-Transcript
+pop-location $ScriptDir 
