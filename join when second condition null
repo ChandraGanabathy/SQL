@@ -1,0 +1,17 @@
+DECLARE @ResultsetStatementOfCapital TABLE
+	(ItemCategory NVARCHAR(255), ItemSubcategory NVARCHAR(255),FundAmount FLOAT,FundYTDAmount FLOAT,FundITDAmount FLOAT)
+
+	insert into @ResultsetStatementOfCapital values 
+('Distri','Distributions - Cash & Non-Cash',1,2,3)
+,('Contri',NULL,4,5,6)
+
+DECLARE @DisplayItems TABLE
+	(ItemCategory NVARCHAR(255), ItemSubcategory NVARCHAR(255),FundAmount FLOAT,FundYTDAmount FLOAT,FundITDAmount FLOAT)
+
+	insert into @DisplayItems values 
+('Distri','Distributions - Cash & Non-Cash',1,2,3)
+,('Contri','Contribution',4,5,6)
+
+select * from @DisplayItems D 
+left join @ResultsetStatementOfCapital R on D.ItemCategory = R.ItemCategory	
+	and D.ItemSubcategory = isnull(R.ItemSubcategory ,D.ItemSubcategory)
